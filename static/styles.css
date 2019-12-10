@@ -12,3 +12,37 @@ label { display: block; }
 .send_message {
   display:inline-block;
 }
+
+
+.nav_pannel_top{
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  background-color: #a17abf;
+  height: 460px;
+}
+
+.nav_pannel_bottom{
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background-color: #a17abf;
+  height: 130px;
+}
+
+.messages_area_top{
+  border: 5px solid grey;
+  border-radius: 25px;
+  background-color: #95b0ed;
+  height: 460px;
+}
+
+.messages_area_bottom{
+  border-radius: 25px;
+  background-color: #95b0ed;
+  height: 130px;
+}
+
+textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

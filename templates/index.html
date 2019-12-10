@@ -8,10 +8,13 @@
   <div style="height: 600px;" class="container-fluid">
     <div class="row">
       <!--Navigation pannel-->
-      <div style="background-color: #a17abf; height: 460px;" class="col-3">
+      <div class="col-3 nav_pannel_top">
         <div class="user_info">
-          <p><b>user_username</b></p>
-          <p>* online</p>
+          {% if needLogin %}
+            <a class="nav-link" data-toggle="modal" data-target="#modalLoginForm">Log In</a>
+          {% else %}
+            <p><b>{{ user_username }}</b><span style="color: green; font-size: 1em;"> ☯ online</span></p>
+          {% endif %}
         </div>
 
         <br>
@@ -27,7 +30,7 @@
       </div>
 
       <!--Messaging area-->
-      <div style="background-color: #95b0ed; height: 460px;"class="col-9">
+      <div class="col-9 messages_area_top">
         <div class="channel_selected"><!--header area-->
           <p>#3</p>
         </div>
@@ -41,18 +44,18 @@
 
     <!--below part-->
     <div class="row">
-      <div style="background-color: #a17abf; height: 130px;" class="col-3">
+      <div class="col-3 nav_pannel_bottom">
 
       </div>
 
-      <div style="background-color: #95b0ed; height: 130px;" class="col-9">
-          <!--Input area-->
-          <form class="textarea_input" action="" method="POST">
-            <div class="form-group">
-              <textarea class="form-control" id="textarea_input" rows="3" placeholder="Message #random"></textarea>
+      <div class="col-9 messages_area_bottom">
+           <!--Input area-->
+          <form class="textarea_input" action="" method="POST"> <!--SUBMIT this form to:........-->
+            <div class="form-group mt-3">
+              <textarea class="form-control" id="textarea_input" rows="3" placeholder="Message #random" style="width: 720px;"></textarea>
             </div>
-            <div class="send_message" style="bottom:0;">
-              <button type="button" name="send_message" id="send_message" class="btn btn-info">Send</button>
+            <div class="send_message mt-4">
+              <button type="button" name="send_message" id="send_message" class="btn btn-info btn-sm">Send</button>
             </div>
           </form>
       </div>
@@ -60,7 +63,7 @@
 </div>
 
 <!--Channel_add form:-->
-<form action="" method="POST">
+<form action="" method="POST"> <!--SUBMIT this form to:........-->
   <div class="modal fade" id="modalChannelAddForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true" >
     <div class="modal-dialog" role="document">
@@ -98,7 +101,7 @@
 </form>
 
 <!--Login form:-->
-<form action="" method="POST">
+<form action="" method="POST"> <!--SUBMIT this form to:........-->
   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true" >
     <div class="modal-dialog" role="document">

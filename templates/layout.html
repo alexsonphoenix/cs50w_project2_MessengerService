@@ -13,7 +13,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
         <!-- Material Design Bootstrap -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
-        <link href="/static/styles.css" rel="stylesheet">
+        <link href="static/styles.css" rel="stylesheet">
 
         <!-- JQuery -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -25,7 +25,7 @@
         <!-- Manual JavaScript -->
         <script src="{{url_for('static', filename='processing.js')}}"></script>
 
-        
+
         <title>{% block title %}{% endblock %}</title>
 
     </head>
@@ -41,7 +41,7 @@
             <a class="navbar-brand" href="/">Flack</a>
 
             <div class="collapse navbar-collapse" id="navbar">
-                  {% if not session.user_username %}
+                  {% if needLogin %}
                   <ul class="navbar-nav ml-auto mt-2">
                       <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#modalLoginForm">Log In</a></li>
                   </ul>

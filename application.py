@@ -9,4 +9,5 @@ socketio = SocketIO(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    needLogin = False
+    return render_template("index.html", needLogin=needLogin, user_username="alexInDaHouse")
