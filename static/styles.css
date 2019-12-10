@@ -1,0 +1,14 @@
+label { display: block; }
+
+.textarea_input{
+  display: flex;
+}
+
+#textarea_input {
+  display:inline-block;
+
+}
+
+.send_message {
+  display:inline-block;
+}
