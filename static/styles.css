@@ -1,48 +1,53 @@
-label { display: block; }
+label {
+  display: block; }
 
-.textarea_input{
-  display: flex;
-}
+.textarea_input {
+  display: flex; }
 
 #textarea_input {
-  display:inline-block;
-
-}
+  display: inline-block; }
 
 .send_message {
-  display:inline-block;
-}
+  display: inline-block; }
 
-
-.nav_pannel_top{
+.nav_pannel_top {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   background-color: #a17abf;
-  height: 460px;
-}
+  height: 460px; }
 
-.nav_pannel_bottom{
+.nav_pannel_bottom {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   background-color: #a17abf;
-  height: 130px;
-}
+  height: 130px; }
 
-.messages_area_top{
+.messages_area_top {
   border: 5px solid grey;
   border-radius: 25px;
   background-color: #95b0ed;
-  height: 460px;
-}
+  height: 460px; }
 
-.messages_area_bottom{
+.messages_area_bottom {
   border-radius: 25px;
   background-color: #95b0ed;
-  height: 130px;
-}
+  height: 130px; }
 
 textarea {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+#messages_display, #channel_list {
+  position: absolute;
+  text-align: inherit;
+  margin: 0px; }
+
+.scroll {
+  width: calc(100% - 2em);
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+  padding: 20px; }
+
+/*# sourceMappingURL=styles.css.map */
