@@ -29,7 +29,7 @@
           {% if not needLogin %}
             <div id="channel_list" class="scroll m-0" style="height: 290px; background-color: #51305c;">
               {% for channel in channel_list %}
-                <p> <a data-channel="{{ channel[0] }}" class="channel_name"> #{{ channel[0] }} </a> </p>
+                <p> <a href="" data-channelid="{{loop.index0}}" data-channel="{{channel[0]}}" class="channel_name"> #{{ channel[0] }} </a> </p>
               {% endfor %}
             </div>
 
@@ -52,8 +52,10 @@
           {% if needLogin %}
             <p>Please Login First</p>
           {% endif %}
+          <div id="message_display">
+            {{message_channel[currently_selected_channel]}}
+          </div>
           <ul id="messages_view">
-
           </ul>
         </div>
       </div>
@@ -148,6 +150,8 @@
 </form>
 
 <script type="text/javascript">
+  var username = "{{user_username}}";
+
   document.addEventListener('DOMContentLoaded', () => {
       {% if needLogin %}
         document.querySelector("#login_button").click();

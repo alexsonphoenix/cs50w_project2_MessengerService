@@ -21,10 +21,11 @@ Session(app)    # to store information specific to a user from one request to th
 # Global Varibles:
 channel_list = [] # a list of tuple
 
-message_channel1 = [{"username": "Alexaa", "timestamp": "12am", "message": "Hello HIla"}]
-message_channel2 = [{"username": "asdasd", "timestamp": "9pm", "message": "dasd 3123"}]
-message_channel3 = [{"username": "ggdge", "timestamp": "3am", "message": "dds dasdqw"}]
-message_channel4 = []
+message_channel = [
+    []
+]
+
+
 
 @app.route("/")
 def index():
@@ -33,12 +34,19 @@ def index():
         needLogin = True
     else:
         needLogin = False
-    return render_template("index.html", needLogin=needLogin, user_username=session.get('username'), channel_list=channel_list)
+    return render_template("index.html", needLogin=needLogin,
+                                        user_username=session.get('username'),
+                                        channel_list=channel_list,
+                                        message_channel=message_channel,
+                                        currently_selected_channel=session.get('currently_selected_channel'))
 
 @socketio.on("submit message")
 def submit_message(data):
-      message_infor = data["message_infor"]
-      emit("announce message", {"message_infor": message_infor}, broadcast=True)
+    currently_selected_channel =session.get('currently_selected_channel')
+    message_infor = data["message_infor"]
+    print("currently_selected_channel is", currently_selected_channel)
+    message_channel[currently_selected_channel].append({"username": message_infor[0], "timestamp": message_infor[1], "message": message_infor[2]})
+    emit("announce message", {"message_infor": message_infor}, broadcast=True)
 
 
 @app.route("/login", methods=["POST"])
@@ -53,9 +61,21 @@ def add_channel():
     channel_name = request.form.get('channel_name')
     channel_description = request.form.get('channel_description')
     if not any(channel_name in i for i in channel_list) :
-        channel_list.append((channel_name,channel_description))
-    elif len(channel_list) >9:
+        channel_list.append((channel_name,channel_description)) # append a new channel to the channel list
+        message_channel.append([]) # append a new message channel
+
+    elif len(channel_list) >9:      # limit to 10 channel maximum
         return "Too much channels", 401
     else:
         return "Already taken",401
+
+
     return redirect('/')
+
+
+@app.route("/select_channel", methods=["POST"])
+def select_channel():
+    channel_name = request.form.get("channel_name")
+    channel_id = [channel[0] for channel in channel_list].index(channel_name)
+    session['currently_selected_channel'] = channel_id
+    return redirect("/")

@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // When a message is sent:
       document.querySelector('#send_message').onclick = () =>{
-        let username = "random";
-
         let message = document.querySelector('#textarea_input');
 
         let today = new Date();
@@ -18,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const message_infor = [username, dateTime, message.value];
 
-        message.innerHTML = '';
+        message.value = '';
 
         socket.emit('submit message', {'message_infor': message_infor});
       }
@@ -39,7 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const selected_channel = button.dataset.channel;
       console.log(selected_channel);
       document.querySelector('#channel_selected').innerHTML = selected_channel;
+
+      // make a POST request to indicate currently_selected_channel
+      const request = new XMLHttpRequest();
+      request.open('POST', '/select_channel');
+      // Add data to send with request
+      const data = new FormData();
+      data.append('channel_name', selected_channel);
+
+      // Send request
+      request.send(data);
     };
   });
+
 
 });
