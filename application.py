@@ -1,6 +1,7 @@
 import os
+import requests
 
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from tempfile import mkdtemp
 
@@ -18,8 +19,12 @@ Session(app)    # to store information specific to a user from one request to th
 
 
 # Global Varibles:
-channel_list = [("Example1", "original channel"), ("Example2", "original channel"), ("Example3", "original channel")] # a list of tuple
+channel_list = [] # a list of tuple
 
+message_channel1 = [{"username": "Alexaa", "timestamp": "12am", "message": "Hello HIla"}]
+message_channel2 = [{"username": "asdasd", "timestamp": "9pm", "message": "dasd 3123"}]
+message_channel3 = [{"username": "ggdge", "timestamp": "3am", "message": "dds dasdqw"}]
+message_channel4 = []
 
 @app.route("/")
 def index():
@@ -29,6 +34,11 @@ def index():
     else:
         needLogin = False
     return render_template("index.html", needLogin=needLogin, user_username=session.get('username'), channel_list=channel_list)
+
+@socketio.on("submit message")
+def submit_message(data):
+      message_infor = data["message_infor"]
+      emit("announce message", {"message_infor": message_infor}, broadcast=True)
 
 
 @app.route("/login", methods=["POST"])
@@ -44,10 +54,8 @@ def add_channel():
     channel_description = request.form.get('channel_description')
     if not any(channel_name in i for i in channel_list) :
         channel_list.append((channel_name,channel_description))
+    elif len(channel_list) >9:
+        return "Too much channels", 401
     else:
         return "Already taken",401
     return redirect('/')
-
-#@app.route("/check_channel", methods=["POST"])
-#def check_channel():
-    #return jsonify(True)
