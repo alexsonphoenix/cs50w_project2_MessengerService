@@ -22,7 +22,7 @@ Session(app)    # to store information specific to a user from one request to th
 channel_list = [] # a list of tuple
 
 message_channel = [
-    []
+    []              # list of list of dictionaries to store messages for individual channel
 ]
 
 
@@ -45,8 +45,13 @@ def submit_message(data):
     currently_selected_channel =session.get('currently_selected_channel')
     message_infor = data["message_infor"]
     print("currently_selected_channel is", currently_selected_channel)
-    message_channel[currently_selected_channel].append({"username": message_infor[0], "timestamp": message_infor[1], "message": message_infor[2]})
-    emit("announce message", {"message_infor": message_infor}, broadcast=True)
+    if len(message_channel[currently_selected_channel]) < 100:    # Ensure to remember only 100 most current messages
+        message_channel[currently_selected_channel].append({"username": message_infor[0], "timestamp": message_infor[1], "message": message_infor[2]})
+    else:
+        message_channel[currently_selected_channel].pop(0)
+        message_channel[currently_selected_channel].append({"username": message_infor[0], "timestamp": message_infor[1], "message": message_infor[2]})
+
+    emit("announce message", {"conversation": message_channel[currently_selected_channel]}, broadcast=True)
 
 
 @app.route("/login", methods=["POST"])

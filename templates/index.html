@@ -45,17 +45,28 @@
       <!--Messaging area-->
       <div class="col-9 messages_area_top">
         <div ><!--header area-->
-          <p id="channel_selected"></p>
+          {% if currently_selected_channel == None %}
+            <p id="channel_selected">Default</p>
+          {% else %}
+            <p id="channel_selected">{{ channel_list[currently_selected_channel][0]}}</p>
+          {% endif %}
         </div>
         <!--body area where all messages are displayed-->
         <div id="messages_display" class="scroll" style="height: 390px; background-color: #e0c8e8;">
           {% if needLogin %}
             <p>Please Login First</p>
           {% endif %}
-          <div id="message_display">
-            {{message_channel[currently_selected_channel]}}
-          </div>
-          <ul id="messages_view">
+          <ul id="messages_view" style="list-style-type:none;">
+            {% for message_info in message_channel[currently_selected_channel]%}
+            <li>
+              <span> {{message_info.username}}  </span> <small> {{message_info.timestamp}} </small>
+              <p>{{message_info.message}}</p>
+              <div class="hide_wrapper">
+                <button class="hide">Hide</button>
+              </div>
+
+            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -72,7 +83,7 @@
            <!--Input area-->
           <form class="textarea_input"> <!--SUBMIT this form to:........-->
             <div class="form-group mt-3">
-              <textarea class="form-control" id="textarea_input" rows="3" placeholder="Message #random" style="width: 720px;"></textarea>
+              <textarea class="form-control" id="textarea_input" rows="3" placeholder="Message #random" style="width: 720px;" minlength="1"></textarea>
             </div>
             <div class="send_message mt-4">
               {% if not needLogin %}
