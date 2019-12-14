@@ -1,3 +1,8 @@
+//Function to find index in an array
+function logArrayElements(element, index, array) {
+  console.log('a[' + index + '] = ' + element);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Connect to websocket
   var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -31,19 +36,42 @@ document.addEventListener('DOMContentLoaded', () => {
       conversation.forEach( message_info => {
           const li = document.createElement('li');
           li.classname = 'message_info';
-          li.innerHTML = '<span>' + message_info.username +' '+'</span>' + '<small>' + message_info.timestamp + '</small>' + '<p>' + message_info.message +'</p>'
-                        + '<div class="hide_wrapper">' + '<button class="hide">' +'Hide'+ '</button>' + '</div>';
+          li.innerHTML = '<span>' + message_info.username +' '+'</span>' + '<small>' + message_info.timestamp + '</small>' + '<div class="hide_wrapper">' + '<button class="hide">' +'Hide'+ '</button>' + '</div>'+
+          '<p>' + message_info.message +'</p>';
 
           document.querySelector('#messages_view').append(li);
           // When hide button is clicked, remove post.
-          document.querySelectorAll('.hide').forEach(button => {
+          document.querySelectorAll('.hide').forEach(function(button, index) {
               button.onclick = () => {
-                  button.parentElement.parentElement.remove();
+                  button.parentElement.parentElement.remove();  // delete message client-side (delete the <li></li>)
+
+                  // figure out the index of the deleted message:
+                  console.log("message index is " + index);
+
+                  // make a POST request to delete message server-side
+                  const request = new XMLHttpRequest();
+                  request.open('POST', '/delete_message');
+                  // Callback function for when request completes
+                  request.onload = () => {
+                      // Extract JSON data from request
+                      const data = JSON.parse(request.responseText);
+                      // Notify user
+                      if (data.deleted) {
+                          alert("You've deleted a message")
+                      }
+                      else {
+                          alert("There was an error.");
+                      }
+                  }
+                  // Add data to send with request
+                  const data = new FormData();
+                  data.append('index', index);
+                  // Send request
+                  request.send(data);
               }
-      });
+          });
 
-  });
-
+        });
 
   });
 
@@ -66,4 +94,34 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
+  // When hide button is clicked, remove post.
+  document.querySelectorAll('.hide').forEach(function(button, index) {
+      button.onclick = () => {
+          button.parentElement.parentElement.remove();  // delete message client-side (delete the <li></li>)
+
+          // figure out the index of the deleted message:
+          console.log("message index is " + index);
+
+          // make a POST request to delete message server-side
+          const request = new XMLHttpRequest();
+          request.open('POST', '/delete_message');
+          // Callback function for when request completes
+          request.onload = () => {
+              // Extract JSON data from request
+              const data = JSON.parse(request.responseText);
+              // Notify user
+              if (data.deleted) {
+                  alert("You've deleted a message")
+              }
+              else {
+                  alert("There was an error.");
+              }
+          }
+          // Add data to send with request
+          const data = new FormData();
+          data.append('index', index);
+          // Send request
+          request.send(data);
+      }
+  });
 });

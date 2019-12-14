@@ -60,11 +60,10 @@
             {% for message_info in message_channel[currently_selected_channel]%}
             <li>
               <span> {{message_info.username}}  </span> <small> {{message_info.timestamp}} </small>
-              <p>{{message_info.message}}</p>
               <div class="hide_wrapper">
                 <button class="hide">Hide</button>
               </div>
-
+              <p>{{message_info.message}}</p>
             </li>
             {% endfor %}
           </ul>

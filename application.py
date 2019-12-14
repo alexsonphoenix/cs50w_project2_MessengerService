@@ -74,8 +74,17 @@ def add_channel():
     else:
         return "Already taken",401
 
-
     return redirect('/')
+
+@app.route("/delete_message", methods=["POST"])
+def delete_message():
+    currently_selected_channel =session.get('currently_selected_channel')
+    index = int(request.form.get("index"))
+    message_channel[currently_selected_channel].pop(index)
+    if index is None:
+        return jsonify({"deleted": False})
+    else:
+        return jsonify({"deleted": True})
 
 
 @app.route("/select_channel", methods=["POST"])
